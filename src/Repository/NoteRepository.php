@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\String\u;
 
 /**
  * @extends ServiceEntityRepository<Note>
@@ -16,28 +17,39 @@ class NoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Note::class);
     }
 
-    //    /**
-    //     * @return Note[] Returns an array of Note objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('n')
-    //            ->andWhere('n.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('n.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBySearchQuery(string $query): array
+    {
+        $searchTerms = $this->extractSearchTerms($query);
 
-    //    public function findOneBySomeField($value): ?Note
-    //    {
-    //        return $this->createQueryBuilder('n')
-    //            ->andWhere('n.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if (0 === \count($searchTerms)) {
+            return [];
+        }
+
+        $queryBuilder = $this->createQueryBuilder('n');
+
+        foreach ($searchTerms as $key => $term) {
+            $queryBuilder
+                ->orWhere('n.title LIKE :t_'.$key)
+                ->setParameter('t_'.$key, '%'.$term.'%')
+            ;
+        }
+
+        /** @var Post[] $result */
+        $result = $queryBuilder
+            ->orderBy('n.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $result;
+    }
+
+    private function extractSearchTerms(string $searchQuery): array
+    {
+        $terms = array_unique(u($searchQuery)->replaceMatches('/[[:space:]]+/', ' ')->trim()->split(' '));
+
+        return array_filter($terms, static function ($term) {
+            return 2 <= $term->length();
+        });
+    }
 }
