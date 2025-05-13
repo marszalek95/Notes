@@ -13,13 +13,24 @@
         {% endblock %}
 
 
-        <header class="navbar navbar-expand navbar-light bg-light">
+        <header class="navbar navbar-expand-lg navbar-light bg-light">
             <nav class="container-lg">
                 <a class="navbar-brand" href="/notes">Notes</a>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/notes/add">Create note</a>
+                        </li>
+                    </ul>
+                    {% if app.user %}
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="/addnote">Create note</a>
+                        <a class="nav-link active" href="/logout">Logout</a>
                     </div>
+                    {% else %}
+                    <div class="navbar-nav">
+                        <a class="nav-link active" href="/login">Login</a>
+                    </div>
+                    {% endif %}
                 </div>
             </nav>
         </header>

@@ -6,12 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -34,14 +36,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank()]
     private ?string $password = null;
 
     /**
      * @var Collection<int, Note>
      */
-    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'owner')]
     private Collection $notes;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     public function __construct()
     {
@@ -133,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->notes->contains($note)) {
             $this->notes->add($note);
-            $note->setUser($this);
+            $note->setOwner($this);
         }
 
         return $this;
@@ -143,10 +147,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->notes->removeElement($note)) {
             // set the owning side to null (unless already changed)
-            if ($note->getUser() === $this) {
-                $note->setUser(null);
+            if ($note->getOwner() === $this) {
+                $note->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

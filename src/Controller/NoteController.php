@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use App\Form\NoteFormType;
+use App\Repository\NoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class NoteController extends AbstractController
 {
-    #[Route('/addnote', name: 'app_note_create')]
+    #[Route('/notes/add', name: 'app_note_create')]
     public function create(Request $request ,EntityManagerInterface $entityManager): Response
     {
         $note = new Note();
@@ -22,6 +23,9 @@ final class NoteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $note->setOwner($user);
+
             $entityManager->persist($note);
             $entityManager->flush();
 
@@ -36,9 +40,11 @@ final class NoteController extends AbstractController
     }
 
     #[Route('/notes', name: 'app_notes')]
-    public function show(EntityManagerInterface $entityManager): Response
+    public function show(NoteRepository $noteRepository): Response
     {
-        $notes = $entityManager->getRepository(Note::class)->findAll();
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $notes = $noteRepository->findBy(['owner' => $user], ['createdAt' => 'DESC']);
 
         return $this->render('note/show.html.twig', [
             'notes' => $notes,

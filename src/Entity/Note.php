@@ -28,8 +28,8 @@ class Note
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'notes')]
-    private ?User $user = null;
+    #[ORM\ManyToOne]
+    private ?User $owner = null;
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
@@ -76,14 +76,14 @@ class Note
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getOwner(): ?User
     {
-        return $this->user;
+        return $this->owner;
     }
 
-    public function setUser(?User $user): static
+    public function setOwner(?User $owner): static
     {
-        $this->user = $user;
+        $this->owner = $owner;
 
         return $this;
     }
