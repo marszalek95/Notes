@@ -1,26 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello NoteController!{% endblock %}
+{% block title %}Create Note{% endblock %}
 
-{% block body %}
+{% block main %}
 
-<div class="container-lg">
-{% for message in app.flashes('success') %}
-    <div class="alert alert-success" role="alert">
-        {{ message }}
-    </div>
-{% endfor %}
+    <form method="post">
+        <div class="form-group">
+        {{ form_start(form) }}
+            <label for="title">Title</label>
+            {{ form_widget(form.title) }}
+            <label for="content">Content</label>
+            {{ form_widget(form.content) }}
+        </div>
+        <button button type="submit" class="btn btn-primary mt-4">Submit</button>
+        {{ form_end(form) }}
+    </form>
 
-        <form method="post">
-            <div class="form-group">
-            {{ form_start(form) }}
-                <label for="title">Title</label>
-                {{ form_widget(form.title) }}
-                <label for="content">Content</label>
-                {{ form_widget(form.content) }}
-            </div>
-            <button button type="submit" class="btn btn-primary mt-4">Submit</button>
-            {{ form_end(form) }}
-        </form>
-</div>
 {% endblock %}

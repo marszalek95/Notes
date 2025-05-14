@@ -1,1 +1,5 @@
 
+
+.notes { margin: 1em auto; max-width: 800px; font: sans-serif; }
+.card-columns { column-count: 3; column-gap: 1.25rem; }
+.card { margin-bottom: 1.25rem; display: inline-block; width: 100%;}

@@ -7,8 +7,8 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-#[AsLiveComponent(name: 'note_search')]
-final class NoteSearchComponent
+#[AsLiveComponent]
+class NoteSearch
 {
     use DefaultActionTrait;
 
@@ -20,7 +20,7 @@ final class NoteSearchComponent
     ) {  
     }
 
-    public function getPosts(): array
+    public function getNotes(): array
     {
         return $this->noteRepository->findBySearchQuery($this->query);
     }

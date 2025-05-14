@@ -64,4 +64,10 @@ final class NoteController extends AbstractController
 
         return $this->redirectToRoute('app_notes');
     }
+
+    #[Route('/notes/search', name: 'note_search', methods: ['GET'])]
+    public function search(Request $request): Response
+    {
+        return $this->render('note/search.html.twig', ['query' => (string) $request->query->get('q', '')]);
+    }
 }

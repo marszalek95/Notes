@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    {{ component('NoteSearch', {
+        query: query
+    }) }}
+
+{% endblock %}

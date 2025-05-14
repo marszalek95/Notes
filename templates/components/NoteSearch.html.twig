@@ -1,0 +1,21 @@
+<div {{ attributes }}>
+    <div class="form-group mt-4">
+        <input type="search"
+               class="form-control search-field"
+               placeholder="Search for notes"
+               autocomplete="off"
+               data-model="query"
+               autofocus
+        >
+    </div>
+
+    <div class="card-columns mt-4">
+        {% for note in this.notes %}
+            {{ include('note/_note.html.twig') }}
+        {% else %}
+            {% if query is not empty %}
+                {{ 'Cand find any note' }}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
