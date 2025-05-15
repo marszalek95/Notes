@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Note;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use function Symfony\Component\String\u;
 
@@ -15,6 +17,14 @@ class NoteRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Note::class);
+    }
+
+    public function findAllNotesQueryBuilder(User $user): QueryBuilder
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.owner = :owner')
+            ->setParameter('owner', $user)
+            ->orderBy('n.createdAt', 'DESC');
     }
 
     public function findBySearchQuery(string $query): array
