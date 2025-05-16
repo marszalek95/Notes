@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\NoteRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,8 +33,16 @@ class Note
     #[ORM\ManyToOne]
     private ?User $owner = null;
 
+    /**
+     * @var Collection<int, User>
+     */
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable('note_shared_with')]
+    private Collection $sharedWith;
+
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
+        $this->sharedWith = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +94,30 @@ class Note
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getSharedWith(): Collection
+    {
+        return $this->sharedWith;
+    }
+
+    public function addSharedWith(User $sharedWith): static
+    {
+        if (!$this->sharedWith->contains($sharedWith)) {
+            $this->sharedWith->add($sharedWith);
+        }
+
+        return $this;
+    }
+
+    public function removeSharedWith(User $sharedWith): static
+    {
+        $this->sharedWith->removeElement($sharedWith);
 
         return $this;
     }
