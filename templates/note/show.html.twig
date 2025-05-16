@@ -8,10 +8,14 @@
         {% for note in notes %}
             {{ include('note/_note.html.twig') }}
         {% else %}
-            {% if query is not empty %}
-                {{ 'Cand find any note' }}
-            {% endif %}
+            {{ 'Cand find any note' }}
         {% endfor %}
     </div>
+
+    {% if notes.haveToPaginate %}
+        <div class="d-flex justify-content-center">
+            {{ pagerfanta(notes) }}
+        </div>
+    {% endif %}
 
 {% endblock %}

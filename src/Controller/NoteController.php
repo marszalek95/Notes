@@ -6,6 +6,8 @@ use App\Entity\Note;
 use App\Form\NoteFormType;
 use App\Repository\NoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,14 +42,18 @@ final class NoteController extends AbstractController
     }
 
     #[Route('/notes', name: 'app_notes')]
-    public function show(NoteRepository $noteRepository): Response
+    public function show(NoteRepository $noteRepository, Request $request): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $notes = $noteRepository->findBy(['owner' => $user], ['createdAt' => 'DESC']);
+        $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
+
+        $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
+        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setCurrentPage($request->query->get('page', 1));
 
         return $this->render('note/show.html.twig', [
-            'notes' => $notes,
+            'notes' => $pagerfanta,
         ]);
     }
 
@@ -65,9 +71,12 @@ final class NoteController extends AbstractController
         return $this->redirectToRoute('app_notes');
     }
 
-    #[Route('/notes/search', name: 'note_search', methods: ['GET'])]
+    #[Route('/notes/search', name: 'app_note_search', methods: ['GET'])]
     public function search(Request $request): Response
     {
-        return $this->render('note/search.html.twig', ['query' => (string) $request->query->get('q', '')]);
+        return $this->render('note/search.html.twig', [
+            'query' => (string) $request->query->get('q', ''),
+            'page' => (int) $request->query->get('page', 1),
+        ]);
     }
 }

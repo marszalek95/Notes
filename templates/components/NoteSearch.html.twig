@@ -18,4 +18,10 @@
             {% endif %}
         {% endfor %}
     </div>
+
+    {% if this.notes.haveToPaginate %}
+        <div class="d-flex justify-content-center">
+            {{ pagerfanta(this.notes, { 'routeName': 'app_note_search', 'routeParams': {query: query}}) }}
+        </div>
+    {% endif %}
 </div>

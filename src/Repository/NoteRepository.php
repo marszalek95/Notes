@@ -27,31 +27,32 @@ class NoteRepository extends ServiceEntityRepository
             ->orderBy('n.createdAt', 'DESC');
     }
 
-    public function findBySearchQuery(string $query): array
+    public function findBySearchQuery(string $query, User $user): QueryBuilder
     {
         $searchTerms = $this->extractSearchTerms($query);
-
-        if (0 === \count($searchTerms)) {
-            return [];
+        if (0 === count($searchTerms)) {
+            return $this->createQueryBuilder('n')
+                ->where('1 = 0'); // return false 
         }
 
-        $queryBuilder = $this->createQueryBuilder('n');
+        $queryBuilder = $this->createQueryBuilder('n')
+            ->andWhere('n.owner = :user')
+            ->setParameter('user', $user);
+
+        $orX = $queryBuilder->expr()->orX();
 
         foreach ($searchTerms as $key => $term) {
-            $queryBuilder
-                ->orWhere('n.title LIKE :t_'.$key)
-                ->setParameter('t_'.$key, '%'.$term.'%')
-            ;
+            $orX->add('n.title LIKE :t_'.$key);
+            $queryBuilder->setParameter('t_'.$key, '%'.$term.'%');
         }
 
-        /** @var Post[] $result */
-        $result = $queryBuilder
+        $queryBuilder->andWhere($orX);
+
+        $queryBuilder
             ->orderBy('n.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
         ;
 
-        return $result;
+        return $queryBuilder;
     }
 
     private function extractSearchTerms(string $searchQuery): array
