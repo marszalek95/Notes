@@ -15,7 +15,23 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class NoteController extends AbstractController
 {
-    #[Route('/notes/add', name: 'app_note_create')]
+    #[Route('/notes', name: 'app_notes', methods: ['GET'])]
+    public function show(NoteRepository $noteRepository, Request $request): Response
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
+
+        $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
+        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setCurrentPage($request->query->get('page', 1));
+
+        return $this->render('note/show.html.twig', [
+            'notes' => $pagerfanta,
+        ]);
+    }
+    
+    #[Route('/notes/add', name: 'app_note_create', methods: ['POST'])]
     public function create(Request $request ,EntityManagerInterface $entityManager): Response
     {
         $note = new Note();
@@ -41,32 +57,23 @@ final class NoteController extends AbstractController
         ]);
     }
 
-    #[Route('/notes', name: 'app_notes')]
-    public function show(NoteRepository $noteRepository, Request $request): Response
+    #[Route('/note/delete/{id}', name: 'app_note_delete', methods: ['POST'])]
+    public function delete(Note $note, Request $request, EntityManagerInterface $entityManager): Response
     {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-        $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
+        if ($note->getOwner() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You cannot delete this note.');
+        }
 
-        $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
-        $pagerfanta->setMaxPerPage(3);
-        $pagerfanta->setCurrentPage($request->query->get('page', 1));
-
-        return $this->render('note/show.html.twig', [
-            'notes' => $pagerfanta,
-        ]);
-    }
-
-    #[Route('/deletenote/{id}', name: 'app_note_delete', methods: ['POST'])]
-    public function delete(Note $note,Request $request, EntityManagerInterface $entityManager): Response
-    {
         $submittedToken = $request->getPayload()->get('token');
 
-        if ($this->isCsrfTokenValid('delete-item', $submittedToken)) {
-            $entityManager->remove($note);
-            $entityManager->flush();
-            $this->addFlash('success', 'Note deleted successfully');
+        if (!$this->isCsrfTokenValid('delete-item', $submittedToken)) {
+            $this->addFlash('danger', 'Wrong CSRF token');
+            return $this->redirectToRoute('app_notes');
         }
+
+        $entityManager->remove($note);
+        $entityManager->flush();
+        $this->addFlash('success', 'Note deleted successfully');
 
         return $this->redirectToRoute('app_notes');
     }
