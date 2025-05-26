@@ -23,7 +23,7 @@ final class NoteController extends AbstractController
         $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
 
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
-        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setMaxPerPage(6);
         $pagerfanta->setCurrentPage($request->query->get('page', 1));
 
         return $this->render('note/show.html.twig', [
@@ -31,7 +31,7 @@ final class NoteController extends AbstractController
         ]);
     }
     
-    #[Route('/notes/add', name: 'app_note_create', methods: ['POST'])]
+    #[Route('/notes/add', name: 'app_note_create', methods: ['GET', 'POST'])]
     public function create(Request $request ,EntityManagerInterface $entityManager): Response
     {
         $note = new Note();
