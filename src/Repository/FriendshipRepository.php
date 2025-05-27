@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Friendship;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<Friendship>
@@ -17,7 +17,7 @@ class FriendshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Friendship::class);
     }
 
-    public function findFriendship(User $user1, User $user2): ?Friendship
+    public function findFriendship(UserInterface $user1, UserInterface $user2): ?Friendship
     {
         return $this->createQueryBuilder('f')
             ->where('(f.sender = :user1 AND f.receiver = :user2) OR (f.sender = :user2 AND f.receiver = :user1)')

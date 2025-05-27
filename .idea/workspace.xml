@@ -7,7 +7,8 @@
     <list default="true" id="5f60aa05-5f7d-443f-9863-7fea50479041" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/FriendshipController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FriendshipController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NoteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/FriendshipManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/FriendshipManager.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,7 +218,7 @@
       <updated>1748264079050</updated>
       <workItem from="1748264082106" duration="174000" />
       <workItem from="1748264275898" duration="2985000" />
-      <workItem from="1748334387691" duration="3131000" />
+      <workItem from="1748334387691" duration="9589000" />
     </task>
     <servers />
   </component>

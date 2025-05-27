@@ -4,19 +4,19 @@ namespace App\Service;
 
 use App\Config\FriendshipStatus;
 use App\Entity\Friendship;
-use App\Entity\User;
 use App\Repository\FriendshipRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class FriendshipManager implements FriendshipManagerInterface
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private FriendshipRepository $repository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly FriendshipRepository $repository,
     ) {  
     }
 
-    public function sendRequest(User $sender, User $receiver): void
+    public function sendRequest(UserInterface $sender, UserInterface $receiver): void
     {
         if ($sender === $receiver) {
             throw new \InvalidArgumentException('You cant add Yourself to friends');
@@ -34,7 +34,7 @@ class FriendshipManager implements FriendshipManagerInterface
         $this->entityManager->flush();
     }
 
-    public function acceptRequest(Friendship $friendship, User $currentUser): void
+    public function acceptRequest(Friendship $friendship, UserInterface $currentUser): void
     {
         if ($friendship->getReceiver() !== $currentUser) {
             throw new \LogicException('You are not receiver');
@@ -44,7 +44,7 @@ class FriendshipManager implements FriendshipManagerInterface
         $this->entityManager->flush();
     }
 
-    public function rejectRequest(Friendship $friendship, User $currentUser): void
+    public function rejectRequest(Friendship $friendship, UserInterface $currentUser): void
     {
         if ($friendship->getReceiver() !== $currentUser) {
             throw new \LogicException('You are not receiver');
