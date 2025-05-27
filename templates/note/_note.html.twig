@@ -5,7 +5,7 @@
         <p class="card-text"><small class="text-muted">Creaded at: {{ note.createdAt|date }}</small></p>
         <form action="{{ url('app_note_delete', { id: note.id}) }}" method="post">
             <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
-            <button class="btn btn-outline-danger">Delete</a>
+            <button class="btn btn-outline-danger">Delete</button>
         </form>
     </div>
 </div>
