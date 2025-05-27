@@ -15,9 +15,7 @@ class FriendshipController extends AbstractController
     public function __construct(
         private FriendshipManagerInterface $friendshipManager,
         private FriendshipRepository $repository,
-    )
-    {
-        
+    ) {
     }
 
     #[Route('/friends/add/{id}', name: 'app_friends_add', methods: ['POST'])]

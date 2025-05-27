@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class NoteController extends AbstractController
+class NoteController extends AbstractController
 {
     #[Route('/notes', name: 'app_notes', methods: ['GET'])]
     public function show(NoteRepository $noteRepository, Request $request): Response
