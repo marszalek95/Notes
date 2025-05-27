@@ -11,8 +11,23 @@ use Zenstruck\Foundry\Test\ResetDatabase;
 class NotesControllerTest extends WebTestCase
 {
     use ResetDatabase, Factories;
-    
+
     public function testShowNotes(): void
+    {
+        $client = static::createClient();
+
+        $user = UserFactory::createOne()->_real();
+        NoteFactory::createMany(10, ['owner' => $user]);
+
+        $client->loginUser($user);
+        $crawler = $client->request('GET', '/notes');
+        $this->assertResponseIsSuccessful();
+        $this->assertCount(6, $crawler->filter('.note'));
+        $crawler = $client->request('GET', '/notes?page=2');
+        $this->assertCount(4, $crawler->filter('.note'));
+        $this->assertResponseIsSuccessful();
+    }
+    public function testPaginationWorks(): void
     {
         $client = static::createClient();
 
