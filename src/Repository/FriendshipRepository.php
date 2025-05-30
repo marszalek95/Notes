@@ -2,10 +2,14 @@
 
 namespace App\Repository;
 
+use App\Config\FriendshipStatus;
 use App\Entity\Friendship;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
+use function Symfony\Component\String\u;
 
 /**
  * @extends ServiceEntityRepository<Friendship>
@@ -25,5 +29,18 @@ class FriendshipRepository extends ServiceEntityRepository
             ->setParameter('user2', $user2)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findAllAcceptedFriendships(UserInterface $user): QueryBuilder
+    {
+        return $this->createQueryBuilder('f')
+            ->addSelect('sender', 'receiver')
+            ->innerJoin('f.sender', 'sender')
+            ->innerJoin('f.receiver', 'receiver')
+            ->where('f.status = :status')
+            ->andWhere('sender.id = :user OR receiver.id = :user')
+            ->setParameter('status', FriendshipStatus::Accepted)
+            ->setParameter('user', $user);
+
     }
 }

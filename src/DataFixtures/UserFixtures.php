@@ -14,7 +14,5 @@ class UserFixtures extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager): void
     {
         UserFactory::createOne();
-
-        $manager->flush();
     }
 }

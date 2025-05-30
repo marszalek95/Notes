@@ -38,6 +38,7 @@ security:
         - { path: ^/notes, roles: IS_AUTHENTICATED }
         - { path: ^/notes/add, roles: IS_AUTHENTICATED }
         - { path: ^/notes/delete, roles: IS_AUTHENTICATED }
+        - { path: ^/friends, roles: IS_AUTHENTICATED  }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

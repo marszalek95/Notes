@@ -17,7 +17,7 @@
     <body>
 
         {% block header %}
-        
+
             <header class="navbar navbar-expand-lg navbar-light bg-light">
                 <nav class="container-lg">
                     <a class="navbar-brand" href="{{ path('app_notes') }}">Notes</a>
@@ -28,6 +28,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('app_note_search') }}">Search</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Friends</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ path('app_friends') }}">Friends</a>
+                                    <a class="dropdown-item" href="{{ path('app_friends_search') }}">Search friend</a>
+                                </div>
                             </li>
                         </ul>
                         {% if app.user %}

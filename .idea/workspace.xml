@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f60aa05-5f7d-443f-9863-7fea50479041" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/templates/note/_note.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/note/_note.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Twig/Components/FriendSearch.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/components/FriendSearch.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/friends/search.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/global.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/FriendsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FriendsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NoteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Note.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Note.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Factory/FriendshipFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FriendshipFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/friends/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/friends/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/note/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/note/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Controller/FriendsControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Controller/FriendsControllerTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +236,10 @@
       <workItem from="1748264082106" duration="174000" />
       <workItem from="1748264275898" duration="2985000" />
       <workItem from="1748334387691" duration="11995000" />
-      <workItem from="1748365007150" duration="1549000" />
+      <workItem from="1748365007150" duration="8290000" />
+      <workItem from="1748417097457" duration="9345000" />
+      <workItem from="1748459076732" duration="15355000" />
+      <workItem from="1748531590391" duration="5107000" />
     </task>
     <servers />
   </component>

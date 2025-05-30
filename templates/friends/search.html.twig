@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    {{ component('FriendSearch', {
+        query: query,
+        page: page
+    }) }}
+
+{% endblock %}

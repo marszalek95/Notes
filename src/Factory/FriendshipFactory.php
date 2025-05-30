@@ -33,8 +33,8 @@ final class FriendshipFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'sender' => UserFactory::createOne(),
-            'receiver' => UserFactory::createOne(),
+            'sender' => UserFactory::new(),
+            'receiver' => UserFactory::new(),
             'createdAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'status' => FriendshipStatus::Pending,
         ];
@@ -46,7 +46,7 @@ final class FriendshipFactory extends PersistentProxyObjectFactory
     protected function initialize(): static
     {
         return $this
-            // ->afterInstantiate(function(Friendship $friendship): void {})
+            // ->afterInstantiate(function(FriendshipFixtures $friendship): void {})
         ;
     }
 }

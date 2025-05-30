@@ -16,9 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class NoteController extends AbstractController
 {
     #[Route('/notes', name: 'app_notes', methods: ['GET'])]
-    public function show(NoteRepository $noteRepository, Request $request): Response
+    public function index(NoteRepository $noteRepository, Request $request): Response
     {
-        /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
 
@@ -26,7 +25,7 @@ class NoteController extends AbstractController
         $pagerfanta->setMaxPerPage(6);
         $pagerfanta->setCurrentPage($request->query->get('page', 1));
 
-        return $this->render('note/show.html.twig', [
+        return $this->render('note/index.html.twig', [
             'notes' => $pagerfanta,
         ]);
     }

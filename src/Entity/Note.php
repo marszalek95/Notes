@@ -30,7 +30,7 @@ class Note
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notes')]
     private ?User $owner = null;
 
     /**
