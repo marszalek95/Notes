@@ -2,14 +2,13 @@
 
 namespace App\Repository;
 
-use App\Config\FriendshipStatus;
+use App\Entity\FavoriteFriend;
 use App\Entity\Friendship;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
-use function Symfony\Component\String\u;
+use App\Config\FriendshipStatus;
 
 /**
  * @extends ServiceEntityRepository<Friendship>
@@ -21,12 +20,12 @@ class FriendshipRepository extends ServiceEntityRepository
         parent::__construct($registry, Friendship::class);
     }
 
-    public function findFriendship(UserInterface $user1, UserInterface $user2): ?Friendship
+    public function findFriendship(UserInterface $user, UserInterface $friend): ?Friendship
     {
         return $this->createQueryBuilder('f')
-            ->where('(f.sender = :user1 AND f.receiver = :user2) OR (f.sender = :user2 AND f.receiver = :user1)')
-            ->setParameter('user1', $user1)
-            ->setParameter('user2', $user2)
+            ->where('(f.sender = :user AND f.receiver = :friend) OR (f.receiver = :user AND f.sender = :friend)')
+            ->setParameter('user', $user)
+            ->setParameter('friend', $friend)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -34,13 +33,29 @@ class FriendshipRepository extends ServiceEntityRepository
     public function findAllAcceptedFriendships(UserInterface $user): QueryBuilder
     {
         return $this->createQueryBuilder('f')
+            ->select('f AS friendship')
+            ->leftJoin('f.sender', 'sender')
+            ->leftJoin('f.receiver', 'receiver')
+            ->leftJoin(
+                FavoriteFriend::class,
+                'favorite',
+                'WITH',
+                'favorite.owner = :currentUser AND favorite.friendship = f.id'
+            )
             ->addSelect('sender', 'receiver')
-            ->innerJoin('f.sender', 'sender')
-            ->innerJoin('f.receiver', 'receiver')
+            ->addSelect('CASE WHEN favorite.id IS NOT NULL THEN true ELSE false END AS isFavorite')            ->where('u.email LIKE :email')
             ->where('f.status = :status')
-            ->andWhere('sender.id = :user OR receiver.id = :user')
+            ->andWhere('f.sender = :currentUser OR f.receiver = :currentUser')
             ->setParameter('status', FriendshipStatus::Accepted)
-            ->setParameter('user', $user);
+            ->setParameter('currentUser', $user);
+    }
 
+    public function findAllPendingFriendships(UserInterface $user): QueryBuilder
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.receiver = :user')
+            ->andWhere('f.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', FriendshipStatus::Pending);
     }
 }

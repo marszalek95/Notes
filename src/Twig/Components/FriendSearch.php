@@ -16,11 +16,11 @@ class FriendSearch
 {
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true, url: true)]
+    #[LiveProp(writable: true, onUpdated: 'onQueryUpdated', url: true)]
     public string $query = '';
 
     #[LiveProp(writable: true, url: true)]
-    public string $page;
+    public int $page = 1;
 
     public function __construct(
         private readonly UserRepository $userRepository,
@@ -29,15 +29,21 @@ class FriendSearch
     ) {
     }
 
-    public function getFriends(): Pagerfanta
+    public function onQueryUpdated(): void
+    {
+        $this->page = 1;
+    }
+
+    public function getUsers(): Pagerfanta
     {
         $user = $this->security->getUser();
 
         $queryBuilder = $this->userRepository->findBySearchQuery($this->query, $user);
 
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
-        $pagerfanta->setMaxPerPage(3);
+        $pagerfanta->setMaxPerPage(12);
         $pagerfanta->setCurrentPage($this->page);
+        $pagerfanta->getCurrentPageResults();
 
         return $pagerfanta;
     }

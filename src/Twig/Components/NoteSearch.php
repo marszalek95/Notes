@@ -16,10 +16,10 @@ class NoteSearch
 {
     use DefaultActionTrait;
 
-    #[LiveProp(writable: true, url: true)]
+    #[LiveProp(writable: true, onUpdated: 'onQueryUpdated', url: true)]
     public string $query = '';
 
-    #[LiveProp(writable: true, url: true)]
+    #[LiveProp(writable: true)]
     public string $page;
 
     public function __construct(
@@ -27,6 +27,11 @@ class NoteSearch
         private readonly Security $security,
         private readonly RouterInterface $router,
     ) {  
+    }
+
+    public function onQueryUpdated(): void
+    {
+        $this->page = 1;
     }
 
     public function getNotes(): Pagerfanta

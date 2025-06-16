@@ -166,4 +166,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Friendship>
+     */
+    public function getFriendships(): Collection
+    {
+        return $this->friendships;
+    }
+
+    public function addFriendship(Friendship $friendship): static
+    {
+        if (!$this->friendships->contains($friendship)) {
+            $this->friendships->add($friendship);
+            $friendship->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFriendship(Friendship $friendship): static
+    {
+        if ($this->friendships->removeElement($friendship)) {
+            // set the owning side to null (unless already changed)
+            if ($friendship->getSender() === $this) {
+                $friendship->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Friendship>
+     */
+    public function getReceiver(): Collection
+    {
+        return $this->receiver;
+    }
+
+    public function addReceiver(Friendship $receiver): static
+    {
+        if (!$this->receiver->contains($receiver)) {
+            $this->receiver->add($receiver);
+            $receiver->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceiver(Friendship $receiver): static
+    {
+        if ($this->receiver->removeElement($receiver)) {
+            // set the owning side to null (unless already changed)
+            if ($receiver->getReceiver() === $this) {
+                $receiver->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
 }

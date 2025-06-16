@@ -1,0 +1,10 @@
+<span class="position-absolute end-0"
+      tabindex="0" data-bs-toggle="popover"
+      data-bs-title="Shared with:"
+      data-bs-trigger="hover focus"
+      data-bs-content="
+        {% for user in note.sharedWith %}
+            {{ user.email }}
+        {% endfor %}">
+        <i class="bi bi-person-fill"></i>
+</span>

@@ -23,10 +23,10 @@ class FriendshipManagerTest extends KernelTestCase
 
     public function testSendRequest():void
     {
-        $sender = UserFactory::createOne()->_real();
-        $receiver = UserFactory::createOne()->_real();
+        $user = UserFactory::createOne()->_real();
+        $friend = UserFactory::createOne()->_real();
 
-        $this->friendshipManager->sendRequest($sender, $receiver);
+        $this->friendshipManager->sendRequest($user, $friend);
         $this->assertTrue(true);
 
     }
@@ -84,5 +84,17 @@ class FriendshipManagerTest extends KernelTestCase
 
         $this->friendshipManager->rejectRequest($friendship, $sender);
     }
+
+    public function testFavoritesToggleChanged(): void
+    {
+        $friendship = FriendshipFactory::createOne()->_real();
+        $sender = $friendship->getSender();
+
+        $this->friendshipManager->favoritesToggle($friendship, $sender);
+        $this->assertTrue(true);
+        $this->friendshipManager->favoritesToggle($friendship, $sender);
+        $this->assertFalse(false);
+    }
+
 }
 

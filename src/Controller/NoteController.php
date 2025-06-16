@@ -20,10 +20,11 @@ class NoteController extends AbstractController
     {
         $user = $this->getUser();
         $queryBuilder = $noteRepository->findAllNotesQueryBuilder($user);
+        $page = $request->query->get('page', 1);
 
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage(6);
-        $pagerfanta->setCurrentPage($request->query->get('page', 1));
+        $pagerfanta->setCurrentPage($page);
 
         return $this->render('note/index.html.twig', [
             'notes' => $pagerfanta,
@@ -73,8 +74,9 @@ class NoteController extends AbstractController
         $entityManager->remove($note);
         $entityManager->flush();
         $this->addFlash('success', 'Note deleted successfully');
+        $route = $request->headers->get('referer');
 
-        return $this->redirectToRoute('app_notes');
+        return $this->redirect($route);
     }
 
     #[Route('/notes/search', name: 'app_note_search', methods: ['GET'])]

@@ -16,7 +16,7 @@ class FriendshipFixtures extends Fixture implements  FixtureInterface
     public function load(ObjectManager $manager): void
     {
         $user = UserFactory::createOne(['email' => 'test@example.com'])->_real();
-        FriendshipFactory::createMany(20, ['sender' => $user, 'status' => FriendshipStatus::Accepted]);
-        NoteFactory::createMany(30, ['owner' => $user]);
+        FriendshipFactory::createMany(30, ['sender' => $user, 'status' => FriendshipStatus::Accepted]);
+        NoteFactory::createMany(120, ['owner' => $user]);
     }
 }

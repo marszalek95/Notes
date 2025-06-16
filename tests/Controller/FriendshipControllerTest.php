@@ -6,6 +6,7 @@ use App\Config\FriendshipStatus;
 use App\Factory\FriendshipFactory;
 use App\Factory\UserFactory;
 use App\Repository\FriendshipRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
 use Zenstruck\Foundry\Test\ResetDatabase;
@@ -14,15 +15,22 @@ class FriendshipControllerTest extends WebTestCase
 {
     use ResetDatabase, Factories;
 
+    private KernelBrowser $client;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->client = static::createClient();
+    }
+
     function testSendRequest(): void
     {
-        $client = static::createClient();
-
         $sender = UserFactory::createOne()->_real();
         $receiver = UserFactory::createOne()->_real();
 
-        $client->loginUser($sender);
-        $client->request('POST', '/friends/add/' . $receiver->getId());
+        $this->client->loginUser($sender);
+        $crawler = $this->client->request('GET', '/friends/search?query=' . $receiver->getEmail());
+        $this->client->submit($crawler->filter('#send-request')->form());
         $this->assertResponseRedirects();
 
         $repository = static::getContainer()->get(FriendshipRepository::class);
@@ -34,40 +42,38 @@ class FriendshipControllerTest extends WebTestCase
 
     function testAcceptRequest(): void
     {
-        $client = static::createClient();
-
         $friendship = FriendshipFactory::createOne();
-        $sender = $friendship->getSender();
-        $receiver = $friendship->getReceiver();
+        $user = $friendship->getSender();
+        $friend = $friendship->getReceiver();
 
-        $client->loginUser($receiver);
-        $client->request('POST', '/friends/accept/' . $friendship->getId());
+        $this->client->loginUser($friend);
+        $crawler = $this->client->request('GET', '/friends/requests');
+        $this->client->submit($crawler->filter('#accept-request')->form());
         $this->assertResponseRedirects();
 
         $repository = static::getContainer()->get(FriendshipRepository::class);
-        $friendship =  $repository->findFriendship($sender, $receiver);
+        $friendship =  $repository->findFriendship($user, $friend);
         $this->assertNotNull($friendship);
         $this->assertSame($friendship->getStatus(), FriendshipStatus::Accepted);
-        
+
     }
 
     function testRejectRequest(): void
     {
-        $client = static::createClient();
-
         $friendship = FriendshipFactory::createOne();
-        $sender = $friendship->getSender();
-        $receiver = $friendship->getReceiver();
+        $user = $friendship->getSender();
+        $friend = $friendship->getReceiver();
 
-        $client->loginUser($receiver);
-        $client->request('POST', '/friends/reject/' . $friendship->getId());
+        $this->client->loginUser($friend);
+        $crawler = $this->client->request('GET', '/friends/requests');
+        $this->client->submit($crawler->filter('#reject-request')->form());
         $this->assertResponseRedirects();
 
         $repository = static::getContainer()->get(FriendshipRepository::class);
-        $friendship =  $repository->findFriendship($sender, $receiver);
+        $friendship =  $repository->findFriendship($user, $friend);
         $this->assertNotNull($friendship);
         $this->assertSame($friendship->getStatus(), FriendshipStatus::Rejected);
-        
+
     }
 
     

@@ -1,11 +1,24 @@
 <div class="card text-center note">
     <div class="card-body">
-        <h5 class="card-title"> {{ note.title }} </h5>
+        <div class="d-flex position-relative">
+            <h5 class="card-title mx-auto">{{ note.title }}</h5>
+            {% if note.sharedWith is not empty %}
+                {% if app.user == note.owner %}
+                    {{ include('note/_sharedWith.html.twig') }}
+                {% else %}
+                    {{ include('note/_sharedOwner.html.twig') }}
+                {% endif %}
+            {% endif %}
+        </div>
         <p class="card-text"> {{ note.content }}</p>
         <p class="card-text"><small class="text-muted">Creaded at: {{ note.createdAt|date }}</small></p>
-        <form action="{{ url('app_note_delete', { id: note.id}) }}" method="post">
-            <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
-            <button class="btn btn-outline-danger">Delete</button>
-        </form>
+        <div class="d-flex justify-content-center gap-2">
+            <form action="{{ url('app_note_delete', { id: note.id}) }}" method="post" class="m-0">
+                <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
+                <input type="hidden" name="page" value="{{ app.request.get('page') }}">
+                <button class="btn btn-outline-danger">Delete</button>
+            </form>
+{#            <a class="btn btn-outline-secondary" href="{{ path('app_note_edit') }}">Edit</a>#}
+        </div>
     </div>
 </div>

@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 use function Symfony\Component\String\u;
 
 /**
@@ -19,10 +20,14 @@ class NoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Note::class);
     }
 
-    public function findAllNotesQueryBuilder(User $user): QueryBuilder
+    public function findAllNotesQueryBuilder(UserInterface $user): QueryBuilder
     {
         return $this->createQueryBuilder('n')
+            ->leftJoin('n.sharedWith', 'sh')
+            ->innerJoin('n.owner', 'owner')
+            ->addSelect('owner')
             ->where('n.owner = :owner')
+            ->orWhere('sh = :owner')
             ->setParameter('owner', $user)
             ->orderBy('n.createdAt', 'DESC');
     }

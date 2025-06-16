@@ -5,27 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f60aa05-5f7d-443f-9863-7fea50479041" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Twig/Components/FriendSearch.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/components/FriendSearch.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/friends/search.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/friends/_friend.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/friends/_pending.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/friends/pending.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/note/_sharedOwner.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/note/_sharedWith.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/users/_friend.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/users/_pending.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/users/_rejected.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/users/_user.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/global.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/global.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20250527092924.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/FriendsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FriendsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/FriendshipController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FriendshipController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NoteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Note.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Note.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Factory/FriendshipFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/FriendshipFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/FriendshipFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/FriendshipFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Friendship.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FriendshipRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/NoteRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/NoteRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/FriendshipManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/FriendshipManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/FriendshipManagerInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/FriendshipManagerInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Twig/Components/FriendSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Twig/Components/FriendSearch.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Twig/Components/NoteSearch.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Twig/Components/NoteSearch.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/FriendSearch.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/FriendSearch.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/default/_flash_messages.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/default/_flash_messages.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/friends/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/friends/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/note/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/note/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/friends/search.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/users/search.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/note/_note.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/note/_note.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Controller/FriendsControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Controller/FriendsControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Controller/FriendshipControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Controller/FriendshipControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Service/FriendshipManagerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Service/FriendshipManagerTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +51,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/templates/friends/_friend.html.twig" root0="SKIP_INSPECTION" root1="FORCE_HIGHLIGHTING" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php">
     <include_path>
@@ -188,6 +204,9 @@
       <path value="$PROJECT_DIR$/vendor/zenstruck/assert" />
     </include_path>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -202,7 +221,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/var/www/html/NotesTask&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/var/www/html/Demo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -212,6 +231,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/users" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" use_alternative_configuration_file="true" />
@@ -221,8 +245,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PS-251.25410.148" />
-        <option value="bundled-php-predefined-a98d8de5180a-c5828cf854d9-com.jetbrains.php.sharedIndexes-PS-251.25410.148" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PS-251.26094.133" />
+        <option value="bundled-php-predefined-a98d8de5180a-c5828cf854d9-com.jetbrains.php.sharedIndexes-PS-251.26094.133" />
       </set>
     </attachedChunks>
   </component>
@@ -239,7 +263,10 @@
       <workItem from="1748365007150" duration="8290000" />
       <workItem from="1748417097457" duration="9345000" />
       <workItem from="1748459076732" duration="15355000" />
-      <workItem from="1748531590391" duration="5107000" />
+      <workItem from="1748531590391" duration="35385000" />
+      <workItem from="1748868568013" duration="97835000" />
+      <workItem from="1749554172862" duration="40180000" />
+      <workItem from="1749831712358" duration="19158000" />
     </task>
     <servers />
   </component>

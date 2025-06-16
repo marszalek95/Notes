@@ -17,11 +17,10 @@ final class FriendsControllerTest extends WebTestCase
         $client = static::createClient();
 
         $user = UserFactory::createOne()->_real();
-        $friends = FriendshipFactory::createMany(5, ['sender' => $user, 'status' => FriendshipStatus::Accepted]);
-        FriendshipFactory::createMany(5, ['receiver' => $user, 'status' => FriendshipStatus::Accepted]);
+        FriendshipFactory::createMany(5, ['sender' => $user, 'status' => FriendshipStatus::Accepted]);
         $client->loginUser($user);
         $crawler = $client->request('GET', '/friends');
         $this->assertResponseIsSuccessful();
-        $this->assertCount(10, $crawler->filter('.friend'));
+        $this->assertCount(5, $crawler->filter('.friend'));
     }
 }

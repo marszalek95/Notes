@@ -11,4 +11,10 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/global.scss';
 
-
+import { Popover } from 'bootstrap';
+document.addEventListener('DOMContentLoaded', () => {
+    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    popoverTriggerList.forEach((popoverTriggerEl) => {
+        new Popover(popoverTriggerEl);
+    });
+});

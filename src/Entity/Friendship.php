@@ -14,22 +14,22 @@ class Friendship
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne()]
     private ?User $sender = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne()]
     private ?User $receiver = null;
-
-    #[ORM\Column(enumType: FriendshipStatus::class)]
-    private ?FriendshipStatus $status = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(enumType: FriendshipStatus::class)]
+    private ?FriendshipStatus $status = null;
+
     public function __construct()
     {
-        $this->status = FriendshipStatus::Pending;
         $this->createdAt = new \DateTimeImmutable();
+        $this->status = FriendshipStatus::Pending;
     }
 
     public function getId(): ?int
@@ -61,18 +61,6 @@ class Friendship
         return $this;
     }
 
-    public function getStatus(): ?FriendshipStatus
-    {
-        return $this->status;
-    }
-
-    public function setStatus(FriendshipStatus $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -81,6 +69,18 @@ class Friendship
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?FriendshipStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(FriendshipStatus $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

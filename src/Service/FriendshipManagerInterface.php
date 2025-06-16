@@ -4,10 +4,14 @@ namespace App\Service;
 
 use App\Entity\Friendship;
 use App\Entity\User;
+use App\Repository\FavoriteFriendRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface FriendshipManagerInterface
 {
-    function sendRequest(User $sender, User $receiver): void;
-    function acceptRequest(Friendship $friendship, User $currentUser): void;
-    function rejectRequest(Friendship $friendship, User $currentUser): void;
+    public function sendRequest(UserInterface $sender, UserInterface $receiver): void;
+    public function acceptRequest(Friendship $friendship, UserInterface $currentUser): void;
+    public function rejectRequest(Friendship $friendship, UserInterface $currentUser): void;
+    public function removeRequest(Friendship $friendship, UserInterface $currentUser): void;
+    public function favoritesToggle(Friendship $friendship, UserInterface $currentUser): void;
 }

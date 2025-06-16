@@ -5,8 +5,8 @@
 {% block main %}
     <div class="row mt-4">
         {% for userView in pager %}
-            {% set user = userView.friendship.sender == app.user ? userView.friendship.receiver : userView.friendship.sender  %}
-            {{ include('friends/_friend.html.twig') }}
+            {% set user = userView.sender == app.user ? userView.receiver : userView.sender  %}
+            {{ include('friends/_pending.html.twig') }}
         {% else %}
             {{ 'Cand find any friends' }}
         {% endfor %}
