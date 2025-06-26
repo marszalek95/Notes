@@ -1,0 +1,6 @@
+<form action="{{ url('app_note_delete', { id: note.id}) }}" method="post" class="m-0">
+    <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
+    <input type="hidden" name="page" value="{{ app.request.get('page') }}">
+    <button class="btn btn-outline-danger">Delete</button>
+</form>
+<a class="btn btn-outline-secondary" href="{{ path('app_note_edit', { id: note.id }) }}">Edit</a>

@@ -47,7 +47,8 @@ class FriendshipRepository extends ServiceEntityRepository
             ->where('f.status = :status')
             ->andWhere('f.sender = :currentUser OR f.receiver = :currentUser')
             ->setParameter('status', FriendshipStatus::Accepted)
-            ->setParameter('currentUser', $user);
+            ->setParameter('currentUser', $user)
+            ->orderBy('isFavorite', 'DESC');
     }
 
     public function findAllPendingFriendships(UserInterface $user): QueryBuilder
@@ -57,5 +58,23 @@ class FriendshipRepository extends ServiceEntityRepository
             ->andWhere('f.status = :status')
             ->setParameter('user', $user)
             ->setParameter('status', FriendshipStatus::Pending);
+    }
+
+    public function listAllAcceptedFriendships(UserInterface $user): array
+    {
+        $friendships = $this->findAllAcceptedFriendships($user)
+            ->getQuery()
+            ->getResult();
+
+        $friends = [];
+        foreach ($friendships as $friendship) {
+            if ($friendship['friendship']->getSender() === $user) {
+                $friends[] = $friendship['friendship']->getReceiver();
+            } else {
+                $friends[] = $friendship['friendship']->getSender();
+            }
+        }
+
+        return $friends;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Note;
 use App\Form\NoteFormType;
+use App\Repository\FriendshipRepository;
 use App\Repository\NoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -32,11 +33,15 @@ class NoteController extends AbstractController
     }
     
     #[Route('/notes/add', name: 'app_note_create', methods: ['GET', 'POST'])]
-    public function create(Request $request ,EntityManagerInterface $entityManager): Response
+    public function create(Request $request ,EntityManagerInterface $entityManager, FriendshipRepository $friendshipRepository): Response
     {
         $note = new Note();
 
-        $form = $this->createForm(NoteFormType::class, $note);
+        $user = $this->getUser();
+        $friends = $friendshipRepository->listAllAcceptedFriendships($user);
+        $form = $this->createForm(NoteFormType::class, $note, [
+            'friends' => $friends,
+        ]);
 
         $form->handleRequest($request);
 
@@ -77,6 +82,55 @@ class NoteController extends AbstractController
         $route = $request->headers->get('referer');
 
         return $this->redirect($route);
+    }
+
+    #[Route('note/unshare/{id}', name: 'app_note_unshare', methods: ['POST'])]
+    public function removeSharedNote(Note $note, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $submittedToken = $request->getPayload()->get('token');
+
+        if (!$this->isCsrfTokenValid('unshare-item', $submittedToken)) {
+            $this->addFlash('danger', 'Wrong CSRF token');
+            return $this->redirectToRoute('app_notes');
+        }
+
+        $note->removeSharedWith($this->getUser());
+        $entityManager->flush();
+        $this->addFlash('success', 'Shared note deleted successfully');
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+    }
+
+    #[Route('/notes/edit/{id}' , name: 'app_note_edit', methods: ['GET', 'POST'])]
+    public function edit(Note $note, Request $request, EntityManagerInterface $entityManager, FriendshipRepository $friendshipRepository): Response
+    {
+        if ($note->getOwner() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You cannot edit this note.');
+        }
+
+        $user = $this->getUser();
+        $friends = $friendshipRepository->listAllAcceptedFriendships($user);
+        $form = $this->createForm(NoteFormType::class, $note, [
+            'friends' => $friends,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $note->setOwner($user);
+
+            $entityManager->persist($note);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Note edited successfully');
+
+            return $this->redirectToRoute('app_notes');
+        }
+
+        return $this->render('note/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/notes/search', name: 'app_note_search', methods: ['GET'])]

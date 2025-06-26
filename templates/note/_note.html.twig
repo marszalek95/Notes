@@ -13,12 +13,11 @@
         <p class="card-text"> {{ note.content }}</p>
         <p class="card-text"><small class="text-muted">Creaded at: {{ note.createdAt|date }}</small></p>
         <div class="d-flex justify-content-center gap-2">
-            <form action="{{ url('app_note_delete', { id: note.id}) }}" method="post" class="m-0">
-                <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}">
-                <input type="hidden" name="page" value="{{ app.request.get('page') }}">
-                <button class="btn btn-outline-danger">Delete</button>
-            </form>
-{#            <a class="btn btn-outline-secondary" href="{{ path('app_note_edit') }}">Edit</a>#}
+            {% if app.user == note.owner %}
+                {{ include('note/_control.html.twig') }}
+            {% else %}
+                {{ include('note/_sharedControl.html.twig') }}
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,0 +1,4 @@
+<form action="{{ url('app_note_unshare', { id: note.id}) }}" method="post" class="m-0">
+    <input type="hidden" name="token" value="{{ csrf_token('unshare-item') }}">
+    <button class="btn btn-outline-danger">Delete</button>
+</form>

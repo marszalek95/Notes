@@ -6,11 +6,13 @@
 
     <form method="post">
         <div class="form-group">
-        {{ form_start(form) }}
+            {{ form_start(form) }}
             <label for="title">Title</label>
             {{ form_widget(form.title) }}
             <label for="content">Content</label>
             {{ form_widget(form.content) }}
+            <label for="sharedWith">Shared with</label>
+            {{ form_widget(form.sharedWith) }}
         </div>
         <button type="submit" class="btn btn-primary mt-4">Submit</button>
         {{ form_end(form) }}

@@ -10,6 +10,19 @@ import './bootstrap.js';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 import './styles/global.scss';
+import $ from 'jquery';
+import 'select2';
+import 'select2/dist/css/select2.min.css';
+import 'select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.min.css';
+
+$(function () {
+    $('.js-friends-select').select2({
+        placeholder: 'Choose friends',
+        width: '100%',
+        theme: "bootstrap-5",
+        closeOnSelect: false,
+    });
+});
 
 import { Popover } from 'bootstrap';
 document.addEventListener('DOMContentLoaded', () => {
